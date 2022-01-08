@@ -49,6 +49,20 @@ functions:
       - http:
           path: /poll
           method: post
+  getPollList:
+    handler: src/context-handlers/poll.getPollList
+    memorySize: 128
+    events:
+      - http:
+          path: /poll
+          method: get
+  getPollDetail:
+    handler: src/context-handlers/poll.getPollDetail
+    memorySize: 128
+    events:
+      - http:
+          path: /poll/{id}
+          method: get
 
 resources:
   Resources:

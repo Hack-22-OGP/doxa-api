@@ -14,16 +14,20 @@ const dynamo = () => {
 }
 const dynamoDb = dynamo()
 
+const formatHttpResponse = (success, response) => {
+  return {
+    statusCode: 200,
+    body: JSON.stringify({
+      success: success,
+      response: response   
+    })
+  }
+}
+
 const createPoll = async (event) => {
   const text = JSON.parse(event.body).text
   if (typeof text !== 'string') {
-    return {
-      statusCode: 200,
-      body: JSON.stringify({
-        message: 'createPoll validation error: invalid text',
-        pollText: text   
-      })
-    }
+    return formatHttpResponse(false, 'Invalid input')
   }
 
   const item = {
@@ -37,15 +41,42 @@ const createPoll = async (event) => {
   }
   await dynamoDb.put(item).promise()
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      message: 'createPoll successful',
-      item: item   
-    })
+  return formatHttpResponse(true, item)
+}
+
+const getPollList = async (event) => {
+  const item = {
+    TableName: process.env.DOXA_POLL_TABLE,
+    Item: {
+      id: uuid.v4()
+    }
   }
+
+  const pollListResult = await dynamoDb.scan(item).promise()
+  const pollList = pollListResult.Items.map(poll => {
+    return {
+      id: poll.id,
+      text: poll.text
+    }
+  })
+
+  return formatHttpResponse(true, pollList)
+}
+
+const getPollDetail = async (event) => {
+  const id = event.pathParameters.id
+  const item = {
+    TableName: process.env.DOXA_POLL_TABLE,
+    Key: { id }
+  }
+
+  const pollDetailResult = await dynamoDb.get(item).promise()
+  const pollDetail = pollDetailResult.Item
+  return (pollDetail === undefined) ? formatHttpResponse(false, 'Poll ID not found.') : formatHttpResponse(true, pollDetail)
 }
 
 module.exports = {
-  createPoll
+  createPoll,
+  getPollList,
+  getPollDetail
 }
