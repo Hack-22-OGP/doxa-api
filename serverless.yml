@@ -43,26 +43,33 @@ functions:
           path: /mock-api/mock1
           method: get
   createPoll:
-    handler: src/context-handlers/poll.createPoll
+    handler: src/context-handlers/poll.handlerCreatePoll
     memorySize: 128
     events:
       - http:
           path: /poll
           method: post
   getPollList:
-    handler: src/context-handlers/poll.getPollList
+    handler: src/context-handlers/poll.handlerGetPollList
     memorySize: 128
     events:
       - http:
           path: /poll
           method: get
   getPollDetail:
-    handler: src/context-handlers/poll.getPollDetail
+    handler: src/context-handlers/poll.handlerGetPollDetail
     memorySize: 128
     events:
       - http:
           path: /poll/{id}
           method: get
+  createPollVote:
+    handler: src/context-handlers/vote.handlerCreateVote
+    memorySize: 128
+    events:
+      - http:
+          path: /poll/{id}/vote/{optionId}
+          method: post
 
 resources:
   Resources:
