@@ -1,4 +1,3 @@
-org: edyw7x
 app: doxa-api
 service: doxa-api
 frameworkVersion: "2 || 3"
