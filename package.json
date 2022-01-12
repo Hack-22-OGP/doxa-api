@@ -6,7 +6,11 @@
     "url": "https://github.com/Hack-22-OGP/doxa-api.git"
   },
   "scripts": {
-    "dev": "sls offline start"
+    "dev": "sls offline start",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   },
   "dependencies": {
     "aws-sdk": "^2.1053.0",
@@ -17,6 +21,8 @@
     "eslint": "^8.6.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^8.3.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.1.7",
     "prettier": "^2.5.1",
     "serverless-dynamodb-local": "^0.2.40",
     "serverless-offline": "^8.3.1"
