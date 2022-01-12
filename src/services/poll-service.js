@@ -1,21 +1,20 @@
 const uuid = require('uuid')
 const pollDb = require('../databases/poll-db')
 
-const createPoll = async poll => {
+const createPoll = async (poll) => {
   const item = {
     id: uuid.v4(),
     text: poll.text,
-    options: poll.options.map(option => {
+    options: poll.options.map((option) => {
       return {
         optionId: uuid.v4(),
         optionText: option.optionText,
-        voteCount: 0
+        voteCount: 0,
       }
     }),
     createdDate: Date.now(),
-    updatedDate: Date.now()
+    updatedDate: Date.now(),
   }
-
 
   await pollDb.dbPutPoll(item)
   return item
@@ -24,16 +23,16 @@ const createPoll = async poll => {
 const getPollList = async () => {
   const pollListResult = await pollDb.dbScanPoll()
   if (pollListResult === undefined) return undefined
-    
-  return pollListResult.Items.map(poll => {
+
+  return pollListResult.Items.map((poll) => {
     return {
       id: poll.id,
-      text: poll.text
+      text: poll.text,
     }
   })
 }
 
-const getPollDetail = async id => {
+const getPollDetail = async (id) => {
   const pollDetailResult = await pollDb.dbGetPoll(id)
   return pollDetailResult.Item
 }
@@ -41,5 +40,5 @@ const getPollDetail = async id => {
 module.exports = {
   createPoll,
   getPollList,
-  getPollDetail
+  getPollDetail,
 }

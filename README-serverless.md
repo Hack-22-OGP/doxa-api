@@ -20,8 +20,8 @@ This template does not include any kind of persistence (database). For more adva
 
 ### Deployment
 
-```
-$ serverless deploy
+```sh
+serverless deploy
 ```
 
 After deploying, you should see output similar to:
@@ -63,7 +63,7 @@ _Note_: In current form, after deployment, your API is public and can be invoked
 
 After successful deployment, you can call the created application via HTTP:
 
-```bash
+```sh
 curl https://xxxxxxx.execute-api.us-east-1.amazonaws.com/
 ```
 
@@ -82,23 +82,22 @@ Which should result in response similar to the following (removed `input` conten
 
 You can invoke your function locally by using the following command:
 
-```bash
+```sh
 serverless invoke local --function hello
 ```
 
 Which should result in response similar to the following:
 
-```
+```json
 {
   "statusCode": 200,
   "body": "{\n  \"message\": \"Go Serverless v2.0! Your function executed successfully!\",\n  \"input\": \"\"\n}"
 }
 ```
 
-
 Alternatively, it is also possible to emulate API Gateway and Lambda locally by using `serverless-offline` plugin. In order to do that, execute the following command:
 
-```bash
+```sh
 serverless plugin install -n serverless-offline
 ```
 
@@ -106,7 +105,7 @@ It will add the `serverless-offline` plugin to `devDependencies` in `package.jso
 
 After installation, you can start local emulation with:
 
-```
+```sh
 serverless offline
 ```
 

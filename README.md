@@ -1,6 +1,6 @@
 # DOXA API
 
-### Install Dependencies
+## Install Dependencies
 
 ```sh
 npm install -g serverless
@@ -8,7 +8,7 @@ npm install
 sls dynamodb install
 ```
 
-### Run local
+## Run local
 
 Run serverless offline:
 
@@ -16,7 +16,7 @@ Run serverless offline:
 npm run dev
 ```
 
-### Deploy AWS
+## Deploy AWS
 
 Configure your AWS credentials (access key, secret, session token), and deploy:
 

@@ -3,11 +3,11 @@ const formatHttpResponse = (success, response) => {
     statusCode: 200,
     body: JSON.stringify({
       success: success,
-      response: response   
-    })
+      response: response,
+    }),
   }
 }
 
 module.exports = {
-  formatHttpResponse
+  formatHttpResponse,
 }

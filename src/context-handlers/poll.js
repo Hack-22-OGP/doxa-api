@@ -1,4 +1,8 @@
-const { createPoll, getPollList, getPollDetail } = require('../services/poll-service')
+const {
+  createPoll,
+  getPollList,
+  getPollDetail,
+} = require('../services/poll-service')
 const { formatHttpResponse } = require('../helpers/http-format')
 
 const handlerCreatePoll = async (event) => {
@@ -18,11 +22,13 @@ const handlerGetPollList = async () => {
 const handlerGetPollDetail = async (event) => {
   const id = event.pathParameters.id
   const pollDetail = await getPollDetail(id)
-  return (pollDetail === undefined) ? formatHttpResponse(false, 'Poll ID not found.') : formatHttpResponse(true, pollDetail)
+  return pollDetail === undefined
+    ? formatHttpResponse(false, 'Poll ID not found.')
+    : formatHttpResponse(true, pollDetail)
 }
 
 module.exports = {
   handlerCreatePoll,
   handlerGetPollList,
-  handlerGetPollDetail
+  handlerGetPollDetail,
 }

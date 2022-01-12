@@ -6,18 +6,18 @@ const dynamo = () => {
   if (process.env.IS_OFFLINE) {
     return new AWS.DynamoDB.DocumentClient({
       region: 'localhost',
-      endpoint: 'http://localhost:5000'
+      endpoint: 'http://localhost:5000',
     })
   }
   return new AWS.DynamoDB.DocumentClient()
 }
 const dynamoDb = dynamo()
 
-const dbPutPoll = async item => {
+const dbPutPoll = async (item) => {
   try {
     const recordCreate = {
       TableName: process.env.DOXA_POLL_TABLE,
-      Item: item
+      Item: item,
     }
     await dynamoDb.put(recordCreate).promise()
   } catch (e) {
@@ -37,11 +37,11 @@ const dbScanPoll = async () => {
   }
 }
 
-const dbGetPoll = async id => {
+const dbGetPoll = async (id) => {
   try {
     const query = {
       TableName: process.env.DOXA_POLL_TABLE,
-      Key: { id }
+      Key: { id },
     }
     return dynamoDb.get(query).promise()
   } catch (e) {
@@ -53,5 +53,5 @@ const dbGetPoll = async id => {
 module.exports = {
   dbPutPoll,
   dbScanPoll,
-  dbGetPoll
+  dbGetPoll,
 }
