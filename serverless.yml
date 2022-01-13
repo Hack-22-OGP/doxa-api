@@ -24,8 +24,8 @@ provider:
   lambdaHashingVersion: '20201221'
   region: ap-southeast-1
   environment:
-    DOXA_POLL_TABLE: ${self:service}-${opt:stage, self:provider.stage}
-    DOXA_VOTE_USER_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+    DOXA_POLL_TABLE: ${self:service}-poll-${opt:stage, self:provider.stage}
+    DOXA_VOTE_USER_TABLE: ${self:service}-vote-user-${opt:stage, self:provider.stage}
   iamRoleStatements:
     - Effect: Allow
       Action:
