@@ -1,5 +1,8 @@
 # DOXA API
 
+
+![So Happy](https://github.com/Hack-22-OGP/doxa-api/actions/workflows/ci.yml/badge.svg)
+
 ## Install Dependencies
 
 ```sh
