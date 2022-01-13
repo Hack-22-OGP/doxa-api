@@ -4,44 +4,71 @@ import pollDB from '../../databases/poll-db'
 const getResponse = (results) => {
     return JSON.parse(results.body).response
 }
-
 describe('test poll api', () => {
-    
-    beforeAll(() => {
-        pollDB.dbPutPoll = jest.fn()
-    })
+    describe('test create poll Api', () => {
 
-    it('should create poll', async () => {
-        const results = await poll.handlerCreatePoll({
-            body: JSON.stringify({
-                text: 'Who should be the world Leader?', options: [{
-                    optionText : 'No one should be leader',
-                    
-                }, {
-                    optionText: 'Obama FTW',
-                }],
+        beforeAll(() => {
+            pollDB.dbPutPoll = jest.fn()
+        })
+
+        it('should create poll', async () => {
+            const results = await poll.handlerCreatePoll({
+                body: JSON.stringify({
+                    text: 'Who should be the world Leader?', options: [{
+                        optionText: 'No one should be leader',
+
+                    }, {
+                        optionText: 'Obama FTW',
+                    }],
+                })
             })
+
+
+            expect(getResponse(results)).toEqual(expect.objectContaining({
+                text: 'Who should be the world Leader?',
+                options: [
+                    expect.objectContaining({
+                        "optionText": "No one should be leader"
+                    }),
+                    expect.objectContaining({
+                        "optionText": "Obama FTW"
+                    })]
+            }))
         })
 
+        it('should return invalid input if request is not valid', async () => {
+            const results = await poll.handlerCreatePoll({
+                body: JSON.stringify({ undefined })
+            })
 
-        expect(getResponse(results)).toEqual(expect.objectContaining({
-            text: 'Who should be the world Leader?',
-            options: [
-                expect.objectContaining({
-                    "optionText": "No one should be leader"
-                }),
-                expect.objectContaining({
-                    "optionText": "Obama FTW"
-                })]
-        }))
+
+            expect(getResponse(results)).toEqual("Invalid input")
+        })
     })
 
-    it('should return invalid input if request is not valid', async () => {
-        const results = await poll.handlerCreatePoll({
-            body: JSON.stringify({undefined})
+    describe('test poll list api', () => {
+        beforeAll(() => {
+            pollDB.dbScanPoll = jest.fn()
         })
+        
+        const stubPollData = () => {
+            pollDB.dbScanPoll.mockResolvedValueOnce({
+                Items: [{
+                    id: 1,
+                    text: 'Who should be the world Leader?',
+                }]
+            })
+        }
 
+        it('should return list of poll', async () => {
+            stubPollData()
 
-        expect(getResponse(results)).toEqual("Invalid input")
+            const results = await poll.handlerGetPollList()
+            expect(getResponse(results)).toEqual([{
+                id: 1,
+                text: 'Who should be the world Leader?',
+            }])
+        })
     })
 })
+
