@@ -55,7 +55,7 @@ describe('test poll api', () => {
             pollDB.dbScanPoll.mockResolvedValueOnce({
                 Items: [{
                     id: 1,
-                    text: 'Who should be the world Leader?',
+                    text: 'Who should be the world Leader?'
                 }]
             })
         }
@@ -66,8 +66,36 @@ describe('test poll api', () => {
             const results = await poll.handlerGetPollList()
             expect(getResponse(results)).toEqual([{
                 id: 1,
-                text: 'Who should be the world Leader?',
+                text: 'Who should be the world Leader?'
             }])
+        })
+    })
+
+    describe('test poll detail api', () => {
+        beforeAll(() => {
+            pollDB.dbGetPoll = jest.fn().mockResolvedValueOnce({
+                Item: {
+                    id: 1,
+                    text: 'Who should be the world Leader?',
+                    options: [{
+                        optionText: 'No one should be leader',
+                    }]
+                }
+            })
+        })
+
+        it('should return poll ', async () => {
+            const results =  await poll.handlerGetPollDetail({
+                pathParameters: { id : 1}
+            })
+
+            expect(getResponse(results)).toEqual({
+                id: 1,
+                text: 'Who should be the world Leader?',
+                options: [{
+                    optionText: 'No one should be leader',
+                }]
+            })
         })
     })
 })
