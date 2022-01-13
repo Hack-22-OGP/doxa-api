@@ -25,6 +25,7 @@ provider:
   region: ap-southeast-1
   environment:
     DOXA_POLL_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+    DOXA_VOTE_USER_TABLE: ${self:service}-${opt:stage, self:provider.stage}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -33,6 +34,13 @@ provider:
         - dynamodb:GetItem
         - dynamodb:PutItem
       Resource: 'arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DOXA_POLL_TABLE}'
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+      Resource: 'arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DOXA_VOTE_USER_TABLE}'
 
 functions:
   mock1:
@@ -76,6 +84,19 @@ resources:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: ${self:provider.environment.DOXA_POLL_TABLE}
+        AttributeDefinitions:
+          - AttributeName: 'id'
+            AttributeType: 'S'
+        KeySchema:
+          - AttributeName: 'id'
+            KeyType: 'HASH'
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    DoxaVoteUserDynamoDbTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.DOXA_VOTE_USER_TABLE}
         AttributeDefinitions:
           - AttributeName: 'id'
             AttributeType: 'S'

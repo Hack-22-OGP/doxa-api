@@ -1,4 +1,5 @@
 const pollDb = require('../databases/poll-db')
+const voteUserDb = require('../databases/vote-user-db')
 const { getPollDetail } = require('../services/poll-service')
 
 const _isValidPoll = (poll, optionId) => {
@@ -14,6 +15,11 @@ const createVote = async (pollId, optionId) => {
   if (!_isValidPoll(poll, optionId)) return undefined
 
   // TODO: Validate user previous vote
+  const item = {
+    id: pollId + '-' + 'hashedUserId000',
+  }
+  voteUserDb.dbPutVoteUser(item)
+
   return 'OK' // TODO: Update Poll DB's options vote count
 }
 
