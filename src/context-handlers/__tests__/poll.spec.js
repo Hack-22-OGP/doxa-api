@@ -35,4 +35,13 @@ describe('test poll api', () => {
                 })]
         }))
     })
+
+    it('should return invalid input if request is not valid', async () => {
+        const results = await poll.handlerCreatePoll({
+            body: JSON.stringify({undefined})
+        })
+
+
+        expect(getResponse(results)).toEqual("Invalid input")
+    })
 })
