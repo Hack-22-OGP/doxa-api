@@ -15,11 +15,13 @@ const dynamoDb = dynamo()
 
 const dbPutPoll = async (item) => {
   try {
-    const recordCreate = {
+    item.createdDate = new Date().toISOString()
+    item.updatedDate = new Date().toISOString()
+    const putItem = {
       TableName: process.env.DOXA_POLL_TABLE,
       Item: item,
     }
-    await dynamoDb.put(recordCreate).promise()
+    dynamoDb.put(putItem).promise()
   } catch (e) {
     console.error('[ERROR] dbPutPoll: ', e)
   }
@@ -27,10 +29,10 @@ const dbPutPoll = async (item) => {
 
 const dbScanPoll = async () => {
   try {
-    const query = {
+    const scanItem = {
       TableName: process.env.DOXA_POLL_TABLE,
     }
-    return dynamoDb.scan(query).promise()
+    return dynamoDb.scan(scanItem).promise()
   } catch (e) {
     console.error('[ERROR] dbScanPoll: ', e)
     return undefined
@@ -39,13 +41,35 @@ const dbScanPoll = async () => {
 
 const dbGetPoll = async (id) => {
   try {
-    const query = {
+    const getItem = {
       TableName: process.env.DOXA_POLL_TABLE,
       Key: { id },
     }
-    return dynamoDb.get(query).promise()
+    return dynamoDb.get(getItem).promise()
   } catch (e) {
     console.error('[ERROR] dbGetPoll: ', e)
+    return undefined
+  }
+}
+
+const dbUpdatePollOptions = async (poll) => {
+  try {
+    const updateItem = {
+      TableName: process.env.DOXA_POLL_TABLE,
+      Key: {
+        id: poll.id,
+      },
+      UpdateExpression: 'set options = :options, updatedDate = :updatedDate',
+      ExpressionAttributeValues: {
+        ':options': poll.options,
+        ':updatedDate': new Date().toISOString(),
+      },
+      ReturnValues: 'ALL_NEW',
+    }
+    console.log('db: ', JSON.stringify(updateItem, ' ', 2))
+    return dynamoDb.update(updateItem).promise()
+  } catch (e) {
+    console.error('[ERROR] dbUpdatePollOptions: ', e)
     return undefined
   }
 }
@@ -54,4 +78,5 @@ module.exports = {
   dbPutPoll,
   dbScanPoll,
   dbGetPoll,
+  dbUpdatePollOptions,
 }

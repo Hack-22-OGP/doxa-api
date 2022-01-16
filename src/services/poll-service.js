@@ -4,16 +4,14 @@ const pollDb = require('../databases/poll-db')
 const createPoll = async (poll) => {
   const item = {
     id: uuid.v4(),
-    text: poll.text,
-    options: poll.options.map((option) => {
+    title: poll.title,
+    options: poll.options.map((option, idx) => {
       return {
-        optionId: uuid.v4(),
-        optionText: option.optionText,
+        id: idx,
+        title: option.title,
         voteCount: 0,
       }
     }),
-    createdDate: Date.now(),
-    updatedDate: Date.now(),
   }
 
   await pollDb.dbPutPoll(item)
@@ -27,7 +25,7 @@ const getPollList = async () => {
   return pollListResult.Items.map((poll) => {
     return {
       id: poll.id,
-      text: poll.text,
+      title: poll.title,
     }
   })
 }

@@ -7,7 +7,7 @@ const { formatHttpResponse } = require('../helpers/http-format')
 
 const handlerCreatePoll = async (event) => {
   const poll = JSON.parse(event.body)
-  if (typeof poll.text !== 'string') {
+  if (typeof poll.title !== 'string') {
     return formatHttpResponse(false, 'Invalid input')
   }
   const result = await createPoll(poll)
