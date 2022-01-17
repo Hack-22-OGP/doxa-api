@@ -1,6 +1,5 @@
 # DOXA API
 
-
 ![So Happy](https://github.com/Hack-22-OGP/doxa-api/actions/workflows/ci.yml/badge.svg)
 
 ## Install Dependencies
@@ -25,4 +24,142 @@ Configure your AWS credentials (access key, secret, session token), and deploy:
 
 ```sh
 sls deploy
+```
+
+## API Documentation
+
+List of implemented API:
+
+- Create Poll
+- List Polls
+- Get Poll by Poll ID
+- Create Vote to a Poll
+
+### Create Poll
+
+POST - /poll
+Input:
+
+```
+{
+  "title": "Poll description",
+  "options": [
+    {
+      "title": "Option description #1"
+    },
+    {
+      "title": "Option description #2"
+    }
+  ]
+}
+```
+
+Output:
+
+```
+{
+  "success": true,
+  "response": {
+    "id": "e359c9fd-bbaa-418f-a1ab-8dff619beedf",
+    "title": "Poll description",
+    "options": [
+      {
+        "id": 0,
+        "title": "Option description #1",
+        "voteCount": 0
+      },
+      {
+        "id": 1,
+        "title": "Option description #2",
+        "voteCount": 0
+      }
+    ],
+    "createdDate": "2022-01-16T05:47:56.049Z",
+    "updatedDate": "2022-01-16T05:47:56.049Z"
+  }
+}
+```
+
+### List Polls
+
+GET - /poll
+
+Output:
+
+```
+{
+  "success": true,
+  "response": [
+    {
+      "id": "e359c9fd-bbaa-418f-a1ab-8dff619beedf",
+      "title": "Poll description"
+    },
+    {
+      "id": "e359c9fd-bbaa-418f-a1ab-8dff619beedf",
+      "title": "Another Poll description"
+    }
+  ]
+}
+```
+
+### Get Poll by Poll ID
+
+GET - /poll/{id}
+GET - /poll/e359c9fd-bbaa-418f-a1ab-8dff619beedf
+
+Output:
+
+```
+{
+  "success": true,
+  "response": {
+    "id": "e359c9fd-bbaa-418f-a1ab-8dff619beedf",
+    "title": "Poll description",
+    "options": [
+      {
+        "id": 0,
+        "title": "Option description #1",
+        "voteCount": 0
+      },
+      {
+        "id": 1,
+        "title": "Option description #2",
+        "voteCount": 0
+      }
+    ],
+    "createdDate": "2022-01-16T05:47:56.049Z",
+    "updatedDate": "2022-01-16T05:47:56.049Z"
+  }
+}
+```
+
+### Create Vote to a Poll
+
+POST - /poll/{id}/vote/{optionId}
+POST - /poll/e359c9fd-bbaa-418f-a1ab-8dff619beedf/vote/1
+
+Output:
+
+```
+{
+  "success": true,
+  "response": {
+    "id": "e359c9fd-bbaa-418f-a1ab-8dff619beedf",
+    "title": "Poll description",
+    "options": [
+      {
+        "id": 0,
+        "title": "Option description #1",
+        "voteCount": 0
+      },
+      {
+        "id": 1,
+        "title": "Option description #2",
+        "voteCount": 1
+      }
+    ],
+    "createdDate": "2022-01-16T05:47:56.049Z",
+    "updatedDate": "2022-01-16T05:55:02.020Z"
+  }
+}
 ```
