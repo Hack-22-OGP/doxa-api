@@ -35,6 +35,15 @@ List of implemented API:
 - Get Poll by Poll ID
 - Create Vote to a Poll
 
+Temporary security authorization before implementing sgID or Singpass:
+HTTP Headers: Authorization
+
+```
+Bearer <userId>
+```
+
+\<userId\> is free text, no format validation or encryption for now. \<pollId\>-\<userId\> is stored to vote-user table for validating if user has voted before.
+
 ### Create Poll
 
 POST - /poll
