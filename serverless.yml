@@ -75,7 +75,7 @@ functions:
     memorySize: 128
     events:
       - http:
-          path: /poll/{id}/vote/{optionId}
+          path: /poll/{id}/vote
           method: post
 
 resources:

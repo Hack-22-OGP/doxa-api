@@ -144,8 +144,16 @@ Output:
 
 ### Create Vote to a Poll
 
-POST - /poll/{id}/vote/{optionId}
-POST - /poll/e359c9fd-bbaa-418f-a1ab-8dff619beedf/vote/1
+POST - /poll/{id}/vote
+POST - /poll/e359c9fd-bbaa-418f-a1ab-8dff619beedf/vote
+
+Input:
+
+```
+{
+  "optionId": 0
+}
+```
 
 Output:
 
