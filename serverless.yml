@@ -77,6 +77,13 @@ functions:
       - http:
           path: /poll/{id}/vote
           method: post
+  getPollCheckVote:
+    handler: src/context-handlers/vote.handlerGetPollCheckVote
+    memorySize: 128
+    events:
+      - http:
+          path: /poll/{id}/check-vote
+          method: get
 
 resources:
   Resources:

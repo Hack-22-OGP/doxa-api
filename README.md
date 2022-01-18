@@ -180,3 +180,24 @@ Output:
   }
 }
 ```
+
+### Check User Vote status
+
+GET - /poll/{id}/check-vote
+GET - /poll/e359c9fd-bbaa-418f-a1ab-8dff619beedf/check-vote
+
+status value:
+
+- true: User has existing vote to pollId
+- false: User has not voted to pollId
+
+Output:
+
+```
+{
+  "success": true,
+  "response": {
+    "status": true
+  }
+}
+```

@@ -43,6 +43,16 @@ const createVote = async (pollId, optionId, userId) => {
   }
 }
 
+const getVoteStatus = async (pollId, userId) => {
+  const id = pollId + '-' + userId
+  console.log('id: ', id)
+  // return voteUserDb.dbGetVoteUser(id).Item
+  const result = await voteUserDb.dbGetVoteUser(id)
+  console.log('result: ', result)
+  return result.Item
+}
+
 module.exports = {
   createVote,
+  getVoteStatus,
 }

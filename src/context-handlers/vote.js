@@ -1,12 +1,11 @@
-const { createVote } = require('../services/vote-service')
+const { createVote, getVoteStatus } = require('../services/vote-service')
 const { formatHttpResponse } = require('../helpers/http-format')
+const { httpGetUserId } = require('../helpers/http-get-userId')
 
 const handlerCreateVote = async (event) => {
-  const authString = event.headers.Authorization
-  if (authString === undefined)
+  const userId = httpGetUserId(event)
+  if (userId === undefined)
     return formatHttpResponse(false, 'Invalid Authorization Bearer token.')
-  const authParams = authString.split(' ')
-  const userId = authParams[1]
 
   const pollId = event.pathParameters.id
   if (event.body === null)
@@ -19,6 +18,19 @@ const handlerCreateVote = async (event) => {
   return formatHttpResponse(result.success, result.response)
 }
 
+const handlerGetPollCheckVote = async (event) => {
+  const userId = httpGetUserId(event)
+  if (userId === undefined)
+    return formatHttpResponse(false, 'Invalid Authorization Bearer token.')
+
+  const pollId = event.pathParameters.id
+  const result = await getVoteStatus(pollId, userId)
+  return result === undefined
+    ? formatHttpResponse(true, { status: false })
+    : formatHttpResponse(true, { status: true })
+}
+
 module.exports = {
   handlerCreateVote,
+  handlerGetPollCheckVote,
 }
