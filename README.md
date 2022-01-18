@@ -18,6 +18,10 @@ Run serverless offline:
 npm run dev
 ```
 
+### Mockpass
+
+To run sgID mock locally, clone https://github.com/opengovsg/mockpass and set env SHOW_LOGIN_PAGE=true
+
 ## Deploy AWS
 
 Configure your AWS credentials (access key, secret, session token), and deploy:
@@ -34,6 +38,7 @@ List of implemented API:
 - List Polls
 - Get Poll by Poll ID
 - Create Vote to a Poll
+- Check User Vote status
 
 Temporary security authorization before implementing sgID or Singpass:
 HTTP Headers: Authorization

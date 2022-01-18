@@ -43,11 +43,12 @@ provider:
       Resource: 'arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DOXA_VOTE_USER_TABLE}'
 
 functions:
-  mock1:
-    handler: src/context-handlers/mock-api.mock1
+  getSgIdMock:
+    handler: src/context-handlers/main.handlerIndex
+    memorySize: 128
     events:
       - http:
-          path: /mock-api/mock1
+          path: /
           method: get
   createPoll:
     handler: src/context-handlers/poll.handlerCreatePoll
@@ -83,6 +84,13 @@ functions:
     events:
       - http:
           path: /poll/{id}/check-vote
+          method: get
+  getSgIdCallback:
+    handler: src/context-handlers/sgid.handlerCallback
+    memorySize: 128
+    events:
+      - http:
+          path: /sgid/callback
           method: get
 
 resources:

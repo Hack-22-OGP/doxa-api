@@ -19,6 +19,7 @@
     "aws-sdk": "^2.1053.0",
     "babel-jest": "^27.4.6",
     "bluebird": "^3.7.2",
+    "node-jose": "^2.0.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
