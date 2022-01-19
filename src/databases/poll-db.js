@@ -24,6 +24,7 @@ const dbPutPoll = async (item) => {
     dynamoDb.put(putItem).promise()
   } catch (e) {
     console.error('[ERROR] dbPutPoll: ', e)
+    throw e
   }
 }
 
