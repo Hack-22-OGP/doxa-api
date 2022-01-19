@@ -28,7 +28,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install VPC Plugin and Deploy
-        uses: serverless/github-action@master
+        uses: serverless/github-action@v1.83.3
         with:
           args: -c "serverless plugin install --name serverless-vpc-discovery && serverless deploy --stage=dev --verbose"
           entrypoint: /bin/bash
