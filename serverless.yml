@@ -43,17 +43,24 @@ provider:
       Resource: 'arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DOXA_VOTE_USER_TABLE}'
 
 functions:
-  getSgIdMock:
+  getIndex:
     handler: src/context-handlers/main.handlerIndex
-    memorySize: 128
     events:
       - http:
           path: /
           method: get
           cors: true
+  getDoxa:
+    handler: src/context-handlers/main.handlerDoxa
+    events:
+      - http:
+          path: /{id}
+          method: get
+          cors: true
+  doxaAuthorizer:
+    handler: src/context-handlers/authorizer.handler
   createPoll:
     handler: src/context-handlers/poll.handlerCreatePoll
-    memorySize: 128
     events:
       - http:
           path: /poll
@@ -61,7 +68,6 @@ functions:
           cors: true
   getPollList:
     handler: src/context-handlers/poll.handlerGetPollList
-    memorySize: 128
     events:
       - http:
           path: /poll
@@ -69,7 +75,6 @@ functions:
           cors: true
   getPollDetail:
     handler: src/context-handlers/poll.handlerGetPollDetail
-    memorySize: 128
     events:
       - http:
           path: /poll/{id}
@@ -77,23 +82,30 @@ functions:
           cors: true
   createPollVote:
     handler: src/context-handlers/vote.handlerCreateVote
-    memorySize: 128
     events:
       - http:
           path: /poll/{id}/vote
           method: post
           cors: true
+          authorizer:
+            name: doxaAuthorizer
+            type: token
+            resultTtlInSeconds: 0
+            identitySource: method.request.header.Authorization
   getPollCheckVote:
     handler: src/context-handlers/vote.handlerGetPollCheckVote
-    memorySize: 128
     events:
       - http:
           path: /poll/{id}/check-vote
           method: get
           cors: true
+          authorizer:
+            name: doxaAuthorizer
+            type: token
+            resultTtlInSeconds: 0
+            identitySource: method.request.header.Authorization
   getSgIdCallback:
     handler: src/context-handlers/sgid.handlerCallback
-    memorySize: 128
     events:
       - http:
           path: /sgid/callback
