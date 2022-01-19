@@ -50,6 +50,7 @@ functions:
       - http:
           path: /
           method: get
+          cors: true
   createPoll:
     handler: src/context-handlers/poll.handlerCreatePoll
     memorySize: 128
