@@ -57,7 +57,7 @@ functions:
       - http:
           path: /poll
           method: post
-          # cors: true
+          cors: true
   getPollList:
     handler: src/context-handlers/poll.handlerGetPollList
     memorySize: 128
@@ -65,7 +65,7 @@ functions:
       - http:
           path: /poll
           method: get
-          # cors: true
+          cors: true
   getPollDetail:
     handler: src/context-handlers/poll.handlerGetPollDetail
     memorySize: 128
@@ -73,7 +73,7 @@ functions:
       - http:
           path: /poll/{id}
           method: get
-          # cors: true
+          cors: true
   createPollVote:
     handler: src/context-handlers/vote.handlerCreateVote
     memorySize: 128
@@ -81,7 +81,7 @@ functions:
       - http:
           path: /poll/{id}/vote
           method: post
-          # cors: true
+          cors: true
   getPollCheckVote:
     handler: src/context-handlers/vote.handlerGetPollCheckVote
     memorySize: 128
@@ -89,7 +89,7 @@ functions:
       - http:
           path: /poll/{id}/check-vote
           method: get
-          # cors: true
+          cors: true
   getSgIdCallback:
     handler: src/context-handlers/sgid.handlerCallback
     memorySize: 128
@@ -97,7 +97,7 @@ functions:
       - http:
           path: /sgid/callback
           method: get
-          # cors: true
+          cors: true
 
 resources:
   Resources:
