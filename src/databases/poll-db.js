@@ -21,7 +21,7 @@ const dbPutPoll = async (item) => {
       TableName: process.env.DOXA_POLL_TABLE,
       Item: item,
     }
-    dynamoDb.put(putItem).promise()
+    return dynamoDb.put(putItem).promise()
   } catch (e) {
     console.error('[ERROR] dbPutPoll: ', e)
     throw e
