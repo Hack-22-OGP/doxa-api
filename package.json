@@ -21,6 +21,7 @@
     "axios": "^0.25.0",
     "babel-jest": "^27.4.6",
     "bluebird": "^3.7.2",
+    "crypto-js": "^4.1.1",
     "jsonwebtoken": "^8.5.1",
     "node-jose": "^2.0.0",
     "uuid": "^8.3.2"

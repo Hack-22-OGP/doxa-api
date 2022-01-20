@@ -1,5 +1,6 @@
 const axios = require('axios')
 const { JWK, JWS } = require('node-jose')
+const Crypto = require('crypto-js')
 const { formatHttpResponse } = require('../helpers/http-format')
 const AWS = require('aws-sdk')
 
@@ -9,6 +10,8 @@ const clientSecretMgr = new AWS.SecretsManager({
 const CLIENT_ID = 'DOXA-TEST'
 const SECRET_MANAGER_SECRET_NAME = 'SGID_CLIENT_SECRET'
 const GRANT_TYPE = 'authorization_code'
+
+const AES_KEY = 'emG1NwGuzHPxTg' // TODO: Move this to Secret Manager
 
 const SGID_BASEURL = process.env.IS_OFFLINE
   ? 'http://localhost:5156/sgid'
@@ -71,15 +74,28 @@ const _verifyAndDecodeToken = async (token) => {
   }
 }
 
-const handlerCallback = async (event) => {
+const handlerCallback = async (event, ctx) => {
   const { code, state } = event.queryStringParameters
   const { access_token, id_token } = await _fetchToken(code)
   if (id_token !== undefined) {
-    const payload = await _verifyAndDecodeToken(id_token)
+    let payload = await _verifyAndDecodeToken(id_token)
     if (payload !== undefined) {
+      const targetBytes = Crypto.AES.decrypt(payload.nonce, AES_KEY)
+      const target = targetBytes.toString(Crypto.enc.Utf8)
+      console.log('target: ', target)
+
+      if (process.env.IS_OFFLINE) {
+        payload.sub = payload.sub.substring(2, 11)
+      }
+
+      console.log('payload: ', payload)
+
       return {
-        statusCode: 200,
-        body: JSON.stringify(payload),
+        statusCode: 301,
+        headers: {
+          Location: target,
+          'Set-Cookie': `u=${payload.sub}; Path=/`,
+        },
       }
     }
     return formatHttpResponse(
