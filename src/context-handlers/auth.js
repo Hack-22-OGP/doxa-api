@@ -1,14 +1,25 @@
-const handler = async (event) => {
+const jwt = require('jsonwebtoken')
+const { httpGetAuthToken } = require('../helpers/http-get-auth-token')
+
+const handlerAuthenticateUser = async (event) => {
+  const target = event.queryStringParameters.target
+  const token = httpGetAuthToken(event)
+  console.log('target: ', target)
+  console.log('token: ', token)
+  // TODO: verify token here - if any
+}
+
+const handlerLambdaAuthorizer = async (event) => {
   const params = event.authorizationToken.split(' ')
   const token = params[1]
   console.log('token: ', token)
 
-  if (token === undefined) return denyAllPolicy()
+  if (token === undefined) return _denyAllPolicy()
   // TODO: Handle Token here
-  return allowPolicy(event.methodArn)
+  return _allowPolicy(event.methodArn)
 }
 
-function denyAllPolicy() {
+function _denyAllPolicy() {
   return {
     principalId: '*',
     policyDocument: {
@@ -23,7 +34,7 @@ function denyAllPolicy() {
     },
   }
 }
-function allowPolicy(methodArn) {
+function _allowPolicy(methodArn) {
   return {
     principalId: 'apigateway.amazonaws.com',
     policyDocument: {
@@ -40,5 +51,6 @@ function allowPolicy(methodArn) {
 }
 
 module.exports = {
-  handler,
+  handlerAuthenticateUser,
+  handlerLambdaAuthorizer,
 }

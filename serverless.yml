@@ -33,6 +33,7 @@ provider:
         - dynamodb:Scan
         - dynamodb:GetItem
         - dynamodb:PutItem
+        - dynamodb:UpdateItem
       Resource: 'arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DOXA_POLL_TABLE}'
     - Effect: Allow
       Action:
@@ -57,8 +58,15 @@ functions:
           path: /{id}
           method: get
           cors: true
-  doxaAuthorizer:
-    handler: src/context-handlers/authorizer.handler
+  authenticateUser:
+    handler: src/context-handlers/auth.handlerAuthenticateUser
+    events:
+      - http:
+          path: /api/auth
+          method: get
+          cors: true
+  lambdaAuthorizer:
+    handler: src/context-handlers/auth.handlerLambdaAuthorizer
   createPoll:
     handler: src/context-handlers/poll.handlerCreatePoll
     events:
@@ -88,7 +96,7 @@ functions:
           method: post
           cors: true
           authorizer:
-            name: doxaAuthorizer
+            name: lambdaAuthorizer
             type: token
             resultTtlInSeconds: 0
             identitySource: method.request.header.Authorization
@@ -100,7 +108,7 @@ functions:
           method: get
           cors: true
           authorizer:
-            name: doxaAuthorizer
+            name: lambdaAuthorizer
             type: token
             resultTtlInSeconds: 0
             identitySource: method.request.header.Authorization

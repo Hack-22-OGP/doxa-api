@@ -1,4 +1,4 @@
-const httpGetUserId = (event) => {
+const httpGetAuthToken = (event) => {
   const authString = event.headers.Authorization
   if (authString === undefined) return undefined
   const authParams = authString.split(' ')
@@ -6,5 +6,5 @@ const httpGetUserId = (event) => {
 }
 
 module.exports = {
-  httpGetUserId,
+  httpGetAuthToken,
 }
