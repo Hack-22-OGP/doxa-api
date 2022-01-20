@@ -34,6 +34,7 @@
     "jest": "^27.4.7",
     "lint-staged": "^12.1.7",
     "prettier": "^2.5.1",
+    "serverless-apigateway-service-proxy": "^1.14.1",
     "serverless-dynamodb-local": "^0.2.40",
     "serverless-offline": "^8.3.1"
   }

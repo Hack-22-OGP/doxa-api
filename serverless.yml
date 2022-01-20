@@ -6,7 +6,6 @@ plugins:
   - serverless-offline
   - serverless-dynamodb-local
   - serverless-apigateway-service-proxy
-
 custom:
   apiGatewayServiceProxies:
     - s3:
