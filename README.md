@@ -40,6 +40,10 @@ List of implemented API:
 - Create Vote to a Poll
 - Check User Vote status
 
+Authentication and authorization API:
+
+- Authenticate User
+
 Temporary security authorization before implementing sgID or Singpass:
 HTTP Headers: Authorization
 
@@ -209,3 +213,12 @@ Output:
   }
 }
 ```
+
+### Authenticate User
+
+GET - /api/auth?target={path}
+
+GET - /api/auth?target=/poll
+
+Calling this API will redirect user-agent to sgID. Upon successful authentication it will redirect to 'target' URL and set cookie 'u' with sgID openid.
+This is temporary solution, security implementation will be implemented later.
