@@ -5,8 +5,17 @@ frameworkVersion: '2 || 3'
 plugins:
   - serverless-offline
   - serverless-dynamodb-local
+  - serverless-apigateway-service-proxy
 
 custom:
+  apiGatewayServiceProxies:
+    - s3:
+        path: /poll/
+        method: get
+        action: GetObject
+        bucket:
+          Ref: S3Bucket
+        cors: true
   serverless-offline:
     httpPort: 3000
   dynamodb:
@@ -122,6 +131,8 @@ functions:
 
 resources:
   Resources:
+    S3Bucket:
+      Type: 'AWS::S3::Bucket'
     DoxaPollDynamoDbTable:
       Type: AWS::DynamoDB::Table
       Properties:
