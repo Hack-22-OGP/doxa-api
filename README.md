@@ -51,7 +51,7 @@ Bearer <userId>
 
 ### Create Poll
 
-POST - /poll
+POST - /api/poll
 Input:
 
 ```
@@ -96,7 +96,7 @@ Output:
 
 ### List Polls
 
-GET - /poll
+GET - /api/poll
 
 Output:
 
@@ -118,9 +118,9 @@ Output:
 
 ### Get Poll by Poll ID
 
-GET - /poll/{id}
+GET - /api/poll/{id}
 
-GET - /poll/e359c9fd-bbaa-418f-a1ab-8dff619beedf
+GET - /api/poll/e359c9fd-bbaa-418f-a1ab-8dff619beedf
 
 Output:
 
@@ -150,9 +150,9 @@ Output:
 
 ### Create Vote to a Poll
 
-POST - /poll/{id}/vote
+POST - /api/poll/{id}/vote
 
-POST - /poll/e359c9fd-bbaa-418f-a1ab-8dff619beedf/vote
+POST - /api/poll/e359c9fd-bbaa-418f-a1ab-8dff619beedf/vote
 
 Input:
 
@@ -190,9 +190,9 @@ Output:
 
 ### Check User Vote status
 
-GET - /poll/{id}/check-vote
+GET - /api/poll/{id}/check-vote
 
-GET - /poll/e359c9fd-bbaa-418f-a1ab-8dff619beedf/check-vote
+GET - /api/poll/e359c9fd-bbaa-418f-a1ab-8dff619beedf/check-vote
 
 status value:
 

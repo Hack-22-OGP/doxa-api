@@ -63,28 +63,28 @@ functions:
     handler: src/context-handlers/poll.handlerCreatePoll
     events:
       - http:
-          path: /poll
+          path: /api/poll
           method: post
           cors: true
   getPollList:
     handler: src/context-handlers/poll.handlerGetPollList
     events:
       - http:
-          path: /poll
+          path: /api/poll
           method: get
           cors: true
   getPollDetail:
     handler: src/context-handlers/poll.handlerGetPollDetail
     events:
       - http:
-          path: /poll/{id}
+          path: /api/poll/{id}
           method: get
           cors: true
   createPollVote:
     handler: src/context-handlers/vote.handlerCreateVote
     events:
       - http:
-          path: /poll/{id}/vote
+          path: /api/poll/{id}/vote
           method: post
           cors: true
           authorizer:
@@ -96,7 +96,7 @@ functions:
     handler: src/context-handlers/vote.handlerGetPollCheckVote
     events:
       - http:
-          path: /poll/{id}/check-vote
+          path: /api/poll/{id}/check-vote
           method: get
           cors: true
           authorizer:

@@ -2,21 +2,12 @@ const axios = require('axios')
 const { JWK, JWS } = require('node-jose')
 const { formatHttpResponse } = require('../helpers/http-format')
 const AWS = require('aws-sdk')
-const secretName = 'SGID_CLIENT_SECRET'
-let clientSecret
 
 const clientSecretMgr = new AWS.SecretsManager({
   region: 'ap-southeast-1',
 })
-
-clientSecretMgr.getSecretValue({ SecretId: secretName }, function (err, data) {
-  if (err) {
-    throw err
-  } else {
-    clientSecret = JSON.parse(data.SecretString)[secretName]
-  }
-})
 const CLIENT_ID = 'DOXA-TEST'
+const SECRET_MANAGER_SECRET_NAME = 'SGID_CLIENT_SECRET'
 const GRANT_TYPE = 'authorization_code'
 
 const SGID_BASEURL = process.env.IS_OFFLINE
@@ -31,8 +22,23 @@ const DOXA_SGID_CALLBACK = process.env.IS_OFFLINE
   ? 'http://localhost:3000/dev/sgid/callback'
   : 'https://73l0w8qedc.execute-api.ap-southeast-1.amazonaws.com/dev/sgid/callback'
 
+const _getSecretManager = (secretName) => {
+  return new Promise((resolve, reject) => {
+    clientSecretMgr.getSecretValue({ SecretId: secretName }, (err, data) => {
+      if (err) {
+        throw err
+      } else {
+        const secretValue = JSON.parse(data.SecretString)[secretName]
+        resolve(secretValue)
+      }
+    })
+  })
+}
+
 const _fetchToken = async (code) => {
   try {
+    const clientSecret = await _getSecretManager(SECRET_MANAGER_SECRET_NAME)
+    console.log('clientSecret: ', clientSecret)
     const response = await axios.post(`${SGID_BASEURL}/v1/oauth/token`, {
       client_id: CLIENT_ID,
       client_secret: clientSecret,
@@ -67,7 +73,6 @@ const _verifyAndDecodeToken = async (token) => {
 
 const handlerCallback = async (event) => {
   const { code, state } = event.queryStringParameters
-
   const { access_token, id_token } = await _fetchToken(code)
   if (id_token !== undefined) {
     const payload = await _verifyAndDecodeToken(id_token)
