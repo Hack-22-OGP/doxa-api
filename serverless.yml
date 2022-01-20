@@ -134,8 +134,6 @@ resources:
   Resources:
     S3Bucket:
       Type: 'AWS::S3::Bucket'
-      Properties:
-        BucketName: 'doxa-fe'
     DoxaPollDynamoDbTable:
       Type: AWS::DynamoDB::Table
       Properties:
