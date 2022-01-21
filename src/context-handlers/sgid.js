@@ -93,7 +93,7 @@ const handlerCallback = async (event, ctx) => {
       return {
         statusCode: 301,
         headers: {
-          Location: 'https://amazonaws.com',
+          Location: target,
           'Set-Cookie': `u=${payload.sub}; domain=.amazonaws.com; Path=/`,
         },
       }
