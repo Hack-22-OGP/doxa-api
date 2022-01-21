@@ -94,7 +94,7 @@ const handlerCallback = async (event, ctx) => {
         statusCode: 302,
         headers: {
           Location: target,
-          'Set-Cookie': `u=${payload.sub}; domain=.amazonaws.com; Path=/`,
+          'Set-Cookie': `u=${payload.sub}; domain=amazonaws.com; Path=/`,
         },
       }
     }
