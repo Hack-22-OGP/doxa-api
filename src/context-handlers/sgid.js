@@ -78,7 +78,7 @@ const handlerCallback = async (event, ctx) => {
   const { code, state } = event.queryStringParameters
   const { access_token, id_token } = await _fetchToken(code)
   if (id_token !== undefined) {
-    let payload = await _verifyAndDecodeToken(id_token)
+    const payload = await _verifyAndDecodeToken(id_token)
     if (payload !== undefined) {
       const targetBytes = Crypto.AES.decrypt(payload.nonce, AES_KEY)
       const target = targetBytes.toString(Crypto.enc.Utf8)
@@ -93,8 +93,8 @@ const handlerCallback = async (event, ctx) => {
       return {
         statusCode: 301,
         headers: {
-          Location: target,
-          'Set-Cookie': `u=${payload.sub}; Path=/`,
+          Location: 'https://amazonaws.com',
+          'Set-Cookie': `u=${payload.sub}; domain=.amazonaws.com; Path=/`,
         },
       }
     }
