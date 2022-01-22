@@ -135,8 +135,6 @@ resources:
     ProxySite:
       Type: 'AWS::S3::Bucket'
       Properties:
-        AccessControl: PublicRead
-        BucketName: doxa-fe
         WebsiteConfiguration:
           IndexDocument: index.html
     DoxaPollDynamoDbTable:
