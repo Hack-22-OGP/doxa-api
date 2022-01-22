@@ -14,7 +14,9 @@ custom:
         action: GetObject
         bucket:
           Ref: ProxySite
-        pathOverride: '{folder}/index.html/{path}'
+        pathOverride: 'index.html/{path}'
+        key:
+          pathParam: folder
         cors: true
   serverless-offline:
     httpPort: 3000
