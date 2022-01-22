@@ -9,7 +9,7 @@ plugins:
 custom:
   apiGatewayServiceProxies:
     - s3:
-        path: /poll/{myKey} # use path param
+        path: /poll/ # use path param
         method: get
         action: GetObject
         bucket:
