@@ -15,7 +15,7 @@ custom:
         bucket:
           Ref: ProxySite
         key:
-          pathParam: poll/index.html
+          pathParam: index.html
         cors: true
   serverless-offline:
     httpPort: 3000
