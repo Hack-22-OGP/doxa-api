@@ -13,9 +13,9 @@ custom:
         method: get
         action: GetObject
         bucket:
-          Ref: S3Bucket
+          Ref: ProxySite
         key:
-          pathParam: myKey
+          pathParam: index.html
         cors: true
   serverless-offline:
     httpPort: 3000
@@ -132,8 +132,13 @@ functions:
 
 resources:
   Resources:
-    S3Bucket:
+    ProxySite:
       Type: 'AWS::S3::Bucket'
+      Properties:
+        AccessControl: PublicRead
+        BucketName: doxa-fe
+        WebsiteConfiguration:
+          IndexDocument: index.html
     DoxaPollDynamoDbTable:
       Type: AWS::DynamoDB::Table
       Properties:
