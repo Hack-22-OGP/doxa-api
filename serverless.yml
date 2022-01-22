@@ -14,7 +14,7 @@ custom:
         action: GetObject
         bucket:
           Ref: ProxySite
-        key: index.html # use static key
+        key: poll/index.html # use static key
         cors: true
   serverless-offline:
     httpPort: 3000
