@@ -9,12 +9,12 @@ plugins:
 custom:
   apiGatewayServiceProxies:
     - s3:
-        path: /poll # use path param
+        path: /poll/ # use path param
         method: get
         action: GetObject
         bucket:
           Ref: ProxySite
-        key: poll/index.html # use static key
+        key: 'poll/index.html' # use static key
         cors: true
   serverless-offline:
     httpPort: 3000
